@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es"> <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Portafolio Personal{% endblock title %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 mb-8 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a class="text-xl font-bold hover:text-blue-500" href="{% url 'index' %}">
+                Mi Portafolio
+            </a>
+            
+            <button id="darkModeToggle" class="flex items-center gap-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                <i id="themeIcon" class="fa-solid fa-moon"></i>
+                <span id="themeText">Modo Oscuro</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 min-h-screen">
+        {% block page_content %}{% endblock page_content %}
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('darkModeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const htmlElement = document.documentElement;
+        function updateButtonVisuals() {
+            if (htmlElement.classList.contains('dark')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = "Modo Claro";
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = "Modo Oscuro";
+            }
+        }
+        updateButtonVisuals();
+
+        toggleButton.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            updateButtonVisuals();
+        });
+    </script>
+</body>
+</html>
