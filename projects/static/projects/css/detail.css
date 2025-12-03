@@ -1,0 +1,156 @@
+.detail-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    position: relative;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: #4b5563;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.btn-back:hover {
+    color: #111827;
+    background-color: rgba(0,0,0,0.05);
+    transform: translateX(-5px);
+}
+
+.dark .btn-back {
+    color: #9ca3af;
+}
+.dark .btn-back:hover {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.project-card {
+    background-color: white;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.dark .project-card {
+    background-color: #1f2937;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card-header {
+    width: 100%;
+    height: 400px;
+    background-color: #e5e7eb;
+    position: relative;
+}
+
+.project-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-body {
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.project-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    grid-column: 1 / -1;
+    line-height: 1.1;
+}
+
+.dark .project-title {
+    color: white;
+}
+
+.description-section .label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #3b82f6;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.description-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #4b5563;
+}
+
+.dark .description-text {
+    color: #d1d5db;
+}
+
+.meta-section {
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    height: fit-content;
+}
+
+.dark .meta-section {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.meta-section .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.dark .meta-section .label {
+    color: #9ca3af;
+}
+
+.tech-text {
+    font-family: monospace;
+    color: #111827;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.dark .tech-text {
+    color: #e5e7eb;
+}
+
+@media (max-width: 768px) {
+    .card-header {
+        height: 250px;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .project-title {
+        font-size: 2rem;
+    }
+}

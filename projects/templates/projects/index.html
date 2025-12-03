@@ -1,27 +1,60 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block page_content %}
+<link rel="stylesheet" href="{% static 'projects/css/index.css' %}">
+
 <h1 class="text-3xl font-bold mb-6">Proyectos</h1>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-{% for project in projects %}
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        
-        {% if project.image %}
-            <img class="w-full h-48 object-cover" src="{{ project.image.url }}" alt="{{ project.title }}">
-        {% endif %}
-        
-        <div class="p-5">
-            <h5 class="text-xl font-semibold mb-2">{{ project.title }}</h5>
-            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                {{ project.description }}
-            </p>
-            
-            <a href="{% url 'detail' project.pk %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors">
-                Leer Más
-            </a>
+<div class="portfolio-carousel">
+    
+    <ul class='slider'>
+        {% for project in projects %}
+            <li class='item' style="background-image: url('{% if project.image %}{{ project.image.url }}{% else %}https://via.placeholder.com/400x600{% endif %}')">
+                
+                <div class='content'>
+                    <h2 class='title'>{{ project.title }}</h2>
+                    <p class='description'>
+                        {{ project.description|truncatewords:20 }}
+                    </p>
+                    <a href="{% url 'detail' project.pk %}">
+                        <button>Leer Más</button>
+                    </a>
+                </div>
+                
+            </li>
+        {% endfor %}
+    </ul>
+
+    <nav class='nav'>
+        <div class='btn prev'>
+            <ion-icon name="arrow-back-outline"></ion-icon>
         </div>
-    </div>
-{% endfor %}
+        <div class='btn next'>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+    </nav>
+
 </div>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    const slider = document.querySelector('.slider');
+    
+    function activate(e) {
+      const items = document.querySelectorAll('.item');
+      if (e.target.closest('.next')) {
+        slider.append(items[0]);
+      }
+      if (e.target.closest('.prev')) {
+        slider.prepend(items[items.length - 1]);
+      }
+    }
+    
+    // Asignamos el evento al documento o contenedor
+    document.querySelector('.nav').addEventListener('click', activate, false);
+</script>
+
 {% endblock %}
