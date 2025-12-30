@@ -1,6 +1,6 @@
-# 🚀 Personal Portfolio & Data Analytics Hub
+# 🚀 Personal Portfolio
 
-Este es mi portafolio profesional desarrollado con **Django**. No es solo una vitrina de proyectos, sino una plataforma que integra visualizaciones de datos complejas, como análisis de rendimiento deportivo en tiempo real.
+Este es mi portafolio profesional desarrollado con **Django**. 
 
 ## 🌟 Características Principales
 
