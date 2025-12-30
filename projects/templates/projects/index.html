@@ -2,59 +2,116 @@
 {% load static %}
 
 {% block page_content %}
-<link rel="stylesheet" href="{% static 'projects/css/index.css' %}">
+<style>
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(1.05); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
 
-<h1 class="text-3xl font-bold mb-6">Proyectos</h1>
+<section class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-4xl font-extrabold text-center mb-8 dark:text-white">Mis Proyectos</h1>
 
-<div class="portfolio-carousel">
-    
-    <ul class='slider'>
-        {% for project in projects %}
-            <li class='item' style="background-image: url('{% if project.image %}{{ project.image.url }}{% else %}https://via.placeholder.com/400x600{% endif %}')">
+    <div class="relative w-full h-[550px] rounded-3xl overflow-hidden bg-gray-900 shadow-2xl">
+        
+        <div class="relative w-full h-full">
+            {% for project in projects %}
+            <div class="single-slide absolute inset-0 w-full h-full flex-items-center px-[8%] bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
+                 style="display: {% if forloop.first %}flex{% else %}none{% endif %}; 
+                        background-image: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4)), 
+                        url('{% if project.image %}{{ project.image.url }}{% else %}https://via.placeholder.com/1200x600{% endif %}');">
                 
-                <div class='content'>
-                    <h2 class='title'>{{ project.title }}</h2>
-                    <p class='description'>
-                        {{ project.description|truncatewords:20 }}
+                <div class="max-w-2xl text-white opacity-0 transition-all duration-700 translate-y-8 active-content">
+                    <span class="inline-block bg-blue-600 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md mb-4 mt-4">
+                        {{ project.technology }}
+                    </span>
+                    <h2 class="text-5xl font-black mb-4 leading-tight drop-shadow-lg">
+                        {{ project.title }}
+                    </h2>
+                    <p class="text-lg text-gray-200 mb-8 leading-relaxed line-clamp-3">
+                        {{ project.description|truncatewords:25 }}
                     </p>
-                    <a href="{% url 'detail' project.pk %}">
-                        <button>Leer Más</button>
+                    <a href="{% url 'detail' project.pk %}" 
+                       class="inline-block bg-white text-black hover:bg-blue-600 hover:text-white font-bold py-3 px-8 rounded-xl transition-colors duration-300 shadow-lg">
+                        Ver Proyecto
                     </a>
                 </div>
-                
-            </li>
-        {% endfor %}
-    </ul>
-
-    <nav class='nav'>
-        <div class='btn prev'>
-            <ion-icon name="arrow-back-outline"></ion-icon>
+            </div>
+            {% endfor %}
         </div>
-        <div class='btn next'>
-            <ion-icon name="arrow-forward-outline"></ion-icon>
+
+        <div class="absolute bottom-10 right-10 z-50 flex items-center gap-6 bg-black/60 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 text-white">
+            <button id="btnPrev" class="text-2xl hover:text-blue-400 transition-colors cursor-pointer outline-none">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <div class="font-mono text-lg font-bold min-w-[80px] text-center">
+                <span id="currentVal">01</span> <span class="text-gray-500">/</span> <span id="totalVal">00</span>
+            </div>
+            
+            <button id="btnNext" class="text-2xl hover:text-blue-400 transition-colors cursor-pointer outline-none">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
-    </nav>
-
-</div>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </div>
+</section>
 
 <script>
-    const slider = document.querySelector('.slider');
-    
-    function activate(e) {
-      const items = document.querySelectorAll('.item');
-      if (e.target.closest('.next')) {
-        slider.append(items[0]);
-      }
-      if (e.target.closest('.prev')) {
-        slider.prepend(items[items.length - 1]);
-      }
-    }
-    
-    // Asignamos el evento al documento o contenedor
-    document.querySelector('.nav').addEventListener('click', activate, false);
-</script>
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.single-slide');
+    const currentLabel = document.getElementById('currentVal');
+    const totalLabel = document.getElementById('totalVal');
+    let currentIndex = 0;
 
+    if (slides.length > 0) {
+        totalLabel.innerText = slides.length.toString().padStart(2, '0');
+        revealContent(slides[0]);
+    }
+
+    function revealContent(slide) {
+        const content = slide.querySelector('.active-content');
+        if (content) {
+            content.style.opacity = "1";
+            content.style.transform = "translateY(0)";
+        }
+    }
+
+    function hideContent(slide) {
+        const content = slide.querySelector('.active-content');
+        if (content) {
+            content.style.opacity = "0";
+            content.style.transform = "translateY(30px)";
+        }
+    }
+
+    function changeSlide(newIndex) {
+        hideContent(slides[currentIndex]);
+        
+        setTimeout(() => {
+            slides[currentIndex].style.display = "none";
+            slides[currentIndex].classList.remove('animate-fade-in');
+            
+            currentIndex = newIndex;
+            
+            slides[currentIndex].style.display = "flex";
+            slides[currentIndex].classList.add('animate-fade-in');
+            
+            setTimeout(() => revealContent(slides[currentIndex]), 50);
+            
+            currentLabel.innerText = (currentIndex + 1).toString().padStart(2, '0');
+        }, 300);
+    }
+
+    document.getElementById('btnNext').onclick = () => {
+        changeSlide((currentIndex + 1) % slides.length);
+    };
+
+    document.getElementById('btnPrev').onclick = () => {
+        changeSlide((currentIndex - 1 + slides.length) % slides.length);
+    };
+});
+</script>
 {% endblock %}

@@ -17,7 +17,7 @@
             {% if project.image %}
                 <img src="{{ project.image.url }}" class="project-hero-image" alt="{{ project.title }}">
             {% else %}
-                <div style="width:100%; height:100%; background: linear-gradient(45deg, #111827, #374151); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.1); font-size:3rem;">
+                <div class="placeholder-image">
                     <ion-icon name="image-outline"></ion-icon>
                 </div>
             {% endif %}
@@ -32,6 +32,25 @@
                 <div class="description-text">
                     {{ project.description|linebreaks }}
                 </div>
+
+                {% if project.code_snippet %}
+                <div class="extra-tech-content">
+                    <span class="label">Technical Implementation</span>
+                    <div class="code-container">
+                        <div class="code-header">Source Snippet</div>
+                        <pre class="code-box"><code>{{ project.code_snippet }}</code></pre>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if project.github_url %}
+                <div class="actions-section">
+                    <a href="{{ project.github_url }}" target="_blank" class="btn-github">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+                {% endif %}
             </div>
 
             <aside class="meta-section">
@@ -51,5 +70,33 @@
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    const slider = document.querySelector('.slider');
+    let isMoving = false;
+
+    function activate(e) {
+        if (isMoving) return;
+
+        const items = document.querySelectorAll('.item');
+        const nextBtn = e.target.closest('.next');
+        const prevBtn = e.target.closest('.prev');
+
+        if (!nextBtn && !prevBtn) return;
+
+        isMoving = true;
+
+        if (nextBtn) {
+            slider.append(items[0]);
+        } else {
+            slider.prepend(items[items.length - 1]);
+        }
+
+        setTimeout(() => {
+            isMoving = false;
+        }, 800);
+    }
+
+    document.querySelector('.nav').addEventListener('click', activate, false);
+</script>
 
 {% endblock page_content %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from projects.models import Project
 
 def index(request):
@@ -9,7 +9,7 @@ def index(request):
     return render(request, "projects/index.html", context)
 
 def detail(request, pk):
-    project = Project.objects.get(pk=pk)
+    project = get_object_or_404(Project, pk=pk)
     context = {
         "project": project
     }
