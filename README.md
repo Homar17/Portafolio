@@ -17,9 +17,3 @@ Este es mi portafolio profesional desarrollado con **Django**. No es solo una vi
 * **Análisis de Datos**: Pandas, NumPy, Matplotlib, NBA_API.
 * **Base de Datos**: SQLite (Desarrollo) / PostgreSQL (Producción).
 
-## 🚀 Instalación y Uso
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
-   cd tu-repositorio
